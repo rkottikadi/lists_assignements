@@ -2,8 +2,9 @@
 import data
 import functions
 def show_main_menu():
+  current_order = []
   while True:
-    print("Solomon diner") #edit to show your name
+    print("Rohith diner") #edit to show your name
     print("__________")
     print('N for a new order')
     print('X for close orders and print the check')
@@ -15,6 +16,11 @@ def show_main_menu():
       print('This option prints the list of items ordered, extended price, total, Taxes, and Grand total ')
     elif user_menu_choice in 'Nn':
       print('New order')
+      while input('Add a dish? y/n: ') in 'Yy':
+        ordered_item = functions.get_item_number()
+        current_order.append(ordered_item)
+      print('Current order', current_order)
+    else:
       make_order(user_menu_choice.upper())  #calls a function for adding to the orders
 
 def make_order(menu_choice):
