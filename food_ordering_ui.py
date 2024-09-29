@@ -15,76 +15,32 @@ def show_main_menu():
     if user_menu_choice in 'Qq':
       break
     elif user_menu_choice in 'Xx':
-      print('This option prints the list of items ordered, extended price, total, Taxes, and Grand total ')
-      print_check(current_order) 
+      print("'This option prints the list of items ordered, extended price, total, Taxes, and Grand total '")
+      print_check("current_order") 
     elif user_menu_choice in 'Cc':
       current_order = change_order(current_order)  # Change items in the order  
     elif user_menu_choice in 'Nn':
       print('New order')
       while input('Add a dish? y/n: ') in 'Yy':
-        ordered_item = functions.get_item_number()
-        current_order.append(ordered_item)
-      print('Current order', current_order)
+       item_code, quantity = input("Enter item code and quantity (e.g., E1 2): ").split()
+      if functions.process_customer_request(data.menu_dict, item_code, quantity):
+       current_order.append((item_code, quantity))
+      print("'your order: ',current_order")
     elif user_menu_choice in 'Rr':
-       current_order=[]
-       print('order is reset')
-    else:
-      make_order(user_menu_choice.upper())  #calls a function for adding to the orders
+     current_order = []  # Reset the order
+def print_check (current_order): 
+    print("\nYour order:")
+    print("your check")
 
-def make_order(order):
-  print("New order")
-  while True:
-    
-    user_selection = functions.get_item_number()
-    if user_selection == 'done':
-        break
-    # Split user_selection into item_code and quantity
-    item_code, quantity = user_selection.split()  
-    
-    quantity = int(quantity)  # Convert quantity to an integer
-    item_name, item_price = functions.get_item_information(item_code)
-    item_price = int(item_price)  # Ensure price is an integer
-        
-    # Append the correct tuple to the order (item_code, item_name, quantity, item_price)
-    order.append((item_code, item_name, quantity, item_price))
-        
-        # Debugging statement to ensure correct values are added to the order
-    print(f"Adding to order: {item_code}, {item_name}, {quantity}, {item_price}")
-    
-  return order
+def change_order(current_order):
+ print("Change the order: ")
 
-def close_order(menu_choice):
-  print('Functionality for menu choice ', menu_choice)
-
-def change_order(order):
-    print("Change order")
-    functions.display_current_order(order)
-    item_code = input("Enter the item code you want to change: ")
-    for i, (code, name, qty, price) in enumerate(order):
-        if (code+name) == item_code:
-            new_quantity = (input(f"Enter new item for {code+name} and quantity: "))
-            order[i]=new_quantity
-            
-            print(order)
-            break
-    return order
-  
-def print_check(order):
-    print("Here is your check:")
-    subtotal = functions.calculate_subtotal(order)
-    tax = subtotal * 0.05  # Assuming 5% tax
-    total = subtotal + tax
-    functions.display_current_order(order)
-    print(f"Subtotal: ${subtotal:.2f}")
-    print(f"Tax: ${tax:.2f}")
-    print(f"Total: ${total:.2f}")  
-
-if "_name_" == '_main_':
+if '_name_' == '_main_':
     #initialize the lists
-    drinks = []
-    appetizers = []
-    salads = []
-    entrees = []
-    dessert= []
+   drinks = []
+appetizers = []
+salads = []
+entrees = []
+dessert= []
     #print(functions.get_item_information('D1'))
-    show_main_menu()
+show_main_menu()
